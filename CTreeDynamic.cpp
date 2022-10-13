@@ -32,12 +32,15 @@ void CNodeDynamic::vPrintAllBelow() {
 }
 
 CTreeDynamic::CTreeDynamic() {
-	pc_root = NULL;
+	pc_root = new CNodeDynamic;
 }
 
 CTreeDynamic::~CTreeDynamic() {
-	if (pc_root != NULL)
-		delete pc_root;
+	if (pc_root == NULL) return;
+
+	for (int i = 0; i < pc_root->v_children.size(); ++i) {
+		delete pc_root->v_children[i];
+	}
 }
 
 void CTreeDynamic::vPrintTree() {
