@@ -5,7 +5,18 @@
 #include <algorithm>
 #include "CTreeDynamic.h"
 
+
+// --------------------------------
+//	class CNodeDynamic
+
+
+CNodeDynamic::CNodeDynamic() {
+	i_val = 0;
+	pc_parent_node = NULL;
+}
+
 CNodeDynamic::~CNodeDynamic() {
+//	std::cout << "Deleting node with val " << i_val << '\n';
 	for (int i = 0; i < v_children.size(); ++i) {
 		delete v_children[i];
 	}
@@ -24,12 +35,25 @@ CNodeDynamic *CNodeDynamic::pcGetChild(int iChildOffset) {
 	return v_children[iChildOffset];
 }
 
-void CNodeDynamic::vPrintAllBelow() {
+void CNodeDynamic::vPrintAllBelow(int level) {
+	for (int i = 0; i < level; ++i) {
+		std::cout << "  ";
+	}
 	vPrint();
+	std::cout << "\n";
 	for (int i = 0; i < v_children.size(); ++i) {
-		v_children[i]->vPrintAllBelow();
+		v_children[i]->vPrintAllBelow(level+1);
 	}
 }
+
+void CNodeDynamic::vPrintAllBelow() {
+	vPrintAllBelow(0);
+}
+
+
+// --------------------------------
+//	class CTreeDynamic
+
 
 CTreeDynamic::CTreeDynamic() {
 	pc_root = new CNodeDynamic;
@@ -38,20 +62,29 @@ CTreeDynamic::CTreeDynamic() {
 CTreeDynamic::~CTreeDynamic() {
 	if (pc_root == NULL) return;
 
-	for (int i = 0; i < pc_root->v_children.size(); ++i) {
-		delete pc_root->v_children[i];
-	}
+	delete pc_root;
 }
 
 void CTreeDynamic::vPrintTree() {
+	if (pc_root == NULL) {
+		std::cout << "Root is NULL";
+		return;
+	}
 	pc_root->vPrintAllBelow();
 }
 
+// Parent from foreign tree and child from this tree
 bool CTreeDynamic::bMoveSubTree(CNodeDynamic *pcParentNode, CNodeDynamic *pcNewChildNode) {
 	if (pcParentNode == NULL || pcNewChildNode == NULL) return false;
 
 	// add pcNewChildNode to the new tree
 	pcParentNode->v_children.push_back(pcNewChildNode);
+
+	// if newChildNode is a root of this tree, return
+	if (pcNewChildNode == pc_root){
+		pc_root = NULL;
+		return true;
+	}
 
 	// temp vector for erase-remove
 	std::vector<CNodeDynamic*> v_newChild_parent_children = pcNewChildNode->pc_parent_node->v_children;
