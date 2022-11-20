@@ -87,8 +87,7 @@ bool CTreeDynamic::bMoveSubTree(CNodeDynamic *pcParentNode, CNodeDynamic *pcNewC
 	}
 
 	// temp vector for erase-remove
-	std::vector<CNodeDynamic*> v_newChild_parent_children = pcNewChildNode->pc_parent_node->v_children;
-
+	std::vector<CNodeDynamic*> &v_newChild_parent_children = pcNewChildNode->pc_parent_node->v_children;
 	// remove pcNewChildNode from its parent
 	v_newChild_parent_children.erase(std::remove(v_newChild_parent_children.begin(), v_newChild_parent_children.end(), pcNewChildNode), v_newChild_parent_children.end());
 

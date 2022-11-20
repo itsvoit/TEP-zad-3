@@ -95,9 +95,10 @@ bool CTreeStatic::bMoveSubTree(CNodeStatic *pcParentNode, CNodeStatic *pcNewChil
 		return true;
 	}
 
-	std::vector<CNodeStatic> children = pcNewChildNode -> pc_parent_node -> v_children;
+	std::vector<CNodeStatic> &children = pcNewChildNode -> pc_parent_node -> v_children;
+
 	for (std::vector<CNodeStatic>::iterator it = children.begin(); it != children.end(); ++it){
-		if (&*it == pcNewChildNode) {
+		if (&(*it) == pcNewChildNode) {
 			children.erase(it);
 			break;
 		}
