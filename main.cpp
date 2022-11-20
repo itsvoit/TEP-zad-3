@@ -46,6 +46,20 @@ void v_tree_static_test()
 	std::cout << "Print up from 31:";
 	c_tree.pcGetRoot() -> pcGetChild(0)-> pcGetChild(2)->pcGetChild(1)->vPrintUp();
 
+	CTreeStatic c_sub_tree2;
+	c_sub_tree2.pcGetRoot()->vSetValue(4);
+	c_sub_tree2.pcGetRoot()->vAddNewChild();
+	c_sub_tree2.pcGetRoot()->vAddNewChild();
+	c_sub_tree2.pcGetRoot()->pcGetChild(0)->vSetValue(41);
+	c_sub_tree2.pcGetRoot()->pcGetChild(1)->vSetValue(42);
+
+	std::cout << "Move sub tree: " << std::boolalpha << c_sub_tree2.bMoveSubTree(c_tree.pcGetRoot()->pcGetChild(0), c_sub_tree2.pcGetRoot()->pcGetChild(0)) << "\n";
+
+	std::cout << "Sub tree after move:\n";
+	c_sub_tree2.vPrintTree();
+	std::cout << "\nTree after move:\n";
+	c_tree.vPrintTree();
+
 }// void v_tree_static_test()
 
 
@@ -82,14 +96,31 @@ void v_tree_dynamic_test(){
 	std::cout << "\nTree after move:\n";
 	c_tree.vPrintTree();
 
+
+	CTreeDynamic c_sub_tree2;
+	c_sub_tree2.pcGetRoot()->vSetValue(4);
+	c_sub_tree2.pcGetRoot()->vAddNewChild();
+	c_sub_tree2.pcGetRoot()->vAddNewChild();
+	c_sub_tree2.pcGetRoot()->pcGetChild(0)->vSetValue(41);
+	c_sub_tree2.pcGetRoot()->pcGetChild(1)->vSetValue(42);
+
+	std::cout << "Move sub tree: " << std::boolalpha << c_sub_tree2.bMoveSubTree(c_tree.pcGetRoot()->pcGetChild(0), c_sub_tree2.pcGetRoot()->pcGetChild(0)) << "\n";
+
+	std::cout << "Sub tree after move:\n";
+	c_sub_tree2.vPrintTree();
+	std::cout << "\nTree after move:\n";
+	c_tree.vPrintTree();
+
 }// v_tree_dynamic_test()
 
 
 int main(){
 
+	std::cout << "------------------\nStatic test\n";
 	v_tree_static_test();
 
-//	v_tree_dynamic_test();
+	std::cout << "------------------\nDynamic test\n";
+	v_tree_dynamic_test();
 
 	return 0;
 }
