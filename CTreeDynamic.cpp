@@ -91,5 +91,8 @@ bool CTreeDynamic::bMoveSubTree(CNodeDynamic *pcParentNode, CNodeDynamic *pcNewC
 	// remove pcNewChildNode from its parent
 	v_newChild_parent_children.erase(std::remove(v_newChild_parent_children.begin(), v_newChild_parent_children.end(), pcNewChildNode), v_newChild_parent_children.end());
 
+	// set newChilds parent to parentNode
+	pcNewChildNode->pc_parent_node = pcParentNode;
+
 	return true;
 }
